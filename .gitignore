@@ -1,0 +1,46 @@
+# === Simulation artifacts ===
+*.vcd
+*.fst
+*.lxt
+*.lxt2
+*.ghw
+*.out
+*.vvp
+sim/*.out
+sim/*.vcd
+
+# === Icarus Verilog ===
+a.out
+
+# === GoWin EDA Suite ===
+impl/
+*.gprj.user
+*.fs.rpt.html
+*.fs.rpt.txt
+*.tr.html
+*.synthesis_messages.html
+*.process_config.json
+*.user
+*.bak
+
+# === Python (for the assembler) ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.venv/
+venv/
+.coverage
+
+# === Editors / OS ===
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# === Misc ===
+*.log
+*.tmp
