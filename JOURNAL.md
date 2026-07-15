@@ -157,3 +157,44 @@ change in Phase 2 when I-type immediates get wired in.
 - [x] ALU implemented and verified (10/10 tests pass)
 - [ ] Register file in `id_stage.v`
 - [ ] Register file testbench `tb_register_file.v`
+---
+
+## 2026-05-20 — Phase 1: Register file built and verified
+
+### What I worked on
+- Wrote `rtl/core/register_file.v` — 8×16 register file, two combinational
+  read ports, one synchronous write port. R0 hardwired: reads always
+  return zero, writes silently ignored.
+- Deliberately chose **write-after-read** semantics (same-cycle read
+  returns the OLD value). This matches the PRD §5.2 forwarding spec,
+  which includes a MEM-WB forward path — a write-before-read design
+  wouldn't need one, so the two decisions have to be consistent.
+- Wrote `tb/unit/tb_register_file.v` with 9 test cases:
+  reset zeroing, basic write/read, R0-write-ignored, R0-read-zero on
+  both ports, simultaneous dual-port read, write-after-read semantics
+  (both same-cycle and next-cycle checks), and we=0 blocking writes.
+- All 10 checks passed (the write-after-read test contributes 2).
+
+### Notes
+- First testbench with a real clock — used the `@(negedge clk); setup;
+  @(posedge clk);` pattern for falling-edge stimulus, standard practice
+  for avoiding races between input changes and DUT sampling.
+- Minor cosmetic: the `check` task's `name` input is declared `[255:0]`
+  (32 bytes), so strings longer than 32 chars have leading chars
+  dropped by Verilog. Two test names in the output show as "ame-cycle"
+  and "ext-cycle" instead of "Same-cycle" / "Next-cycle". Harmless but
+  worth remembering — for longer test names, use `[511:0]` or shorter
+  labels.
+
+### Phase 1 status
+- [x] ISA encoding frozen and documented
+- [x] ALU implemented and verified (10/10 tests pass)
+- [x] Register file implemented and verified (10/10 tests pass)
+- [x] Register file testbench
+
+### Phase 1 COMPLETE ✅
+
+Next session: install GoWin EDA + openFPGALoader (board arrived), flash
+blinky to the Tang Nano 9K to close the hardware-toolchain loop before
+starting Phase 2 (single-cycle core).
+
